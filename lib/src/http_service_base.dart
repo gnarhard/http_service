@@ -26,9 +26,9 @@ class HttpService extends http.BaseClient {
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
-    if (hasConnectivity()) {
+    if (!hasConnectivity()) {
       return http.StreamedResponse(
-          Stream.fromIterable([[]]), HttpStatus.serviceUnavailable);
+          Stream.fromIterable([[]]), HttpStatus.badGateway);
     }
 
     final incomingRequest = request as http.Request;
