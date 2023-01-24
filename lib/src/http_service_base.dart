@@ -4,18 +4,16 @@ import 'package:http/http.dart' as http;
 
 class HttpService extends http.BaseClient {
   String apiNamespace;
-  String apiUrl;
-  String publicImgPath;
-  String siteUrl;
+  String siteBaseUrl;
   http.Client? client;
   final Function hasConnectivity;
   final Function getAuthTokenCallback;
 
+  String get apiUrl => '$siteBaseUrl/$apiNamespace';
+
   HttpService({
     required this.apiNamespace,
-    required this.apiUrl,
-    required this.publicImgPath,
-    required this.siteUrl,
+    required this.siteBaseUrl,
     required this.hasConnectivity,
     required this.getAuthTokenCallback,
   }) {
