@@ -1,4 +1,4 @@
-import 'dart:io' show HttpHeaders, HttpStatus;
+import 'dart:io' show HttpHeaders, HttpStatus, Platform;
 
 import 'package:http/http.dart' as http;
 
@@ -16,12 +16,12 @@ class HttpService extends http.BaseClient {
     required this.apiUrl,
     required this.publicImgPath,
     required this.siteUrl,
-    isTesting,
     required this.hasConnectivity,
     required this.getAuthTokenCallback,
   }) {
     /// This gets around the annoying http client creation warning when testing.
-    client = isTesting ? null : http.Client();
+    client =
+        Platform.environment.containsKey('FLUTTER_TEST') ? null : http.Client();
   }
 
   String? get bearerToken => getAuthTokenCallback();
