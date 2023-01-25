@@ -31,14 +31,8 @@ class HttpService extends http.BaseClient {
           Stream.fromIterable([[]]), HttpStatus.badGateway);
     }
 
-    final incomingRequest = request as http.Request;
-    final modifiedRequest =
-        http.Request(incomingRequest.method, incomingRequest.url);
-
-    modifiedRequest.headers.addAll(incomingRequest.headers);
+    final modifiedRequest = request as http.Request;
     modifiedRequest.headers[HttpHeaders.acceptHeader] = 'application/json';
-    modifiedRequest.encoding = incomingRequest.encoding;
-    modifiedRequest.bodyBytes = incomingRequest.bodyBytes.toList();
 
     if (bearerToken != null) {
       modifiedRequest.headers[HttpHeaders.authorizationHeader] =
