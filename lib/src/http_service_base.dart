@@ -41,8 +41,7 @@ class HttpService extends http.BaseClient {
     modifiedRequest.bodyBytes = incomingRequest.bodyBytes.toList();
 
     if (bearerToken != null) {
-      modifiedRequest.headers[HttpHeaders.authorizationHeader] =
-          'Bearer $bearerToken';
+      modifiedRequest.headers[HttpHeaders.authorizationHeader] = bearerToken!;
     }
 
     return client!.send(modifiedRequest);
