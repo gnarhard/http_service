@@ -9,7 +9,15 @@ class HttpService extends http.BaseClient {
   final Function hasConnectivity;
   final Function getAuthTokenCallback;
 
-  String get apiUrl => '$siteBaseUrl/$apiNamespace';
+  String get noTrailingSlashBaseUrl => siteBaseUrl.endsWith('/')
+      ? siteBaseUrl.substring(0, siteBaseUrl.length - 1)
+      : siteBaseUrl;
+
+  String get noTrailingSlashNamespace => apiNamespace.endsWith('/')
+      ? apiNamespace.substring(0, apiNamespace.length - 1)
+      : apiNamespace;
+
+  String get apiUrl => '$noTrailingSlashBaseUrl/$noTrailingSlashNamespace';
 
   HttpService({
     required this.apiNamespace,
