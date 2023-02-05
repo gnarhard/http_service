@@ -8,6 +8,7 @@ class HttpService extends http.BaseClient {
   http.Client? client;
   final Function hasConnectivity;
   final Function getAuthTokenCallback;
+  final String jsonDataKey;
 
   String get noTrailingSlashBaseUrl => siteBaseUrl.endsWith('/')
       ? siteBaseUrl.substring(0, siteBaseUrl.length - 1)
@@ -24,6 +25,7 @@ class HttpService extends http.BaseClient {
     required this.siteBaseUrl,
     required this.hasConnectivity,
     required this.getAuthTokenCallback,
+    this.jsonDataKey = '',
   }) {
     /// This gets around the annoying http client creation warning when testing.
     client =
