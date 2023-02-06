@@ -1,7 +1,4 @@
 import 'dart:io' show HttpHeaders, HttpStatus, Platform;
-import 'dart:convert' show json;
-
-import 'package:flutter/foundation.dart' show compute;
 import 'package:http/http.dart' as http;
 
 class HttpService extends http.BaseClient {
@@ -10,7 +7,6 @@ class HttpService extends http.BaseClient {
   http.Client? client;
   final Function hasConnectivity;
   final Function getAuthTokenCallback;
-  final String jsonDataKey;
 
   String get noTrailingSlashBaseUrl => siteBaseUrl.endsWith('/')
       ? siteBaseUrl.substring(0, siteBaseUrl.length - 1)
@@ -27,7 +23,6 @@ class HttpService extends http.BaseClient {
     required this.siteBaseUrl,
     required this.hasConnectivity,
     required this.getAuthTokenCallback,
-    this.jsonDataKey = '',
   }) {
     /// This gets around the annoying http client creation warning when testing.
     client =
@@ -52,39 +47,5 @@ class HttpService extends http.BaseClient {
     }
 
     return client!.send(modifiedRequest);
-  }
-
-  Future<T?> convert<T>(
-      String responseBody, bool useIsolate, Function fromJson) async {
-    if (responseBody.isEmpty) {
-      return null;
-    }
-
-    T? data;
-
-    final decodedData = useIsolate
-        ? await compute(json.decode, responseBody)
-        : json.decode(responseBody);
-
-    if (jsonDataKey.isNotEmpty) {
-      if (decodedData[jsonDataKey] == null) {
-        return null;
-      }
-      data = decodedData[jsonDataKey];
-    }
-
-    if (jsonDataKey.isEmpty) {
-      data = decodedData;
-    }
-
-    if (data is List) {
-      final convertedData = [];
-      for (Map<String, dynamic> singleData in data) {
-        convertedData.add(fromJson(singleData));
-      }
-      return convertedData as T;
-    }
-
-    return data as T;
   }
 }
