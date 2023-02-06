@@ -16,7 +16,11 @@ class HttpService extends http.BaseClient {
       ? apiNamespace.substring(0, apiNamespace.length - 1)
       : apiNamespace;
 
-  String get apiUrl => '$noTrailingSlashBaseUrl/$noTrailingSlashNamespace';
+  String get apiUrl {
+    return noTrailingSlashNamespace.isEmpty
+        ? noTrailingSlashBaseUrl
+        : '$noTrailingSlashBaseUrl/$noTrailingSlashNamespace';
+  }
 
   HttpService({
     required this.apiNamespace,
