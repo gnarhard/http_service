@@ -44,7 +44,6 @@ class HttpService extends http.BaseClient {
     modifiedRequest.headers[HttpHeaders.acceptHeader] = 'application/json';
 
     final token = await getAuthTokenCallback();
-    print(token);
     if (token != null) {
       modifiedRequest.headers[HttpHeaders.authorizationHeader] =
           'Bearer $token';
