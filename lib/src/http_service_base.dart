@@ -33,8 +33,6 @@ class HttpService extends http.BaseClient {
         Platform.environment.containsKey('FLUTTER_TEST') ? null : http.Client();
   }
 
-  Future<String?> get bearerToken async => await getAuthTokenCallback();
-
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
     if (!hasConnectivity()) {
@@ -45,7 +43,8 @@ class HttpService extends http.BaseClient {
     final modifiedRequest = request as http.Request;
     modifiedRequest.headers[HttpHeaders.acceptHeader] = 'application/json';
 
-    final token = await bearerToken;
+    final token = await getAuthTokenCallback();
+    print(token);
     if (token != null) {
       modifiedRequest.headers[HttpHeaders.authorizationHeader] =
           'Bearer $token';
