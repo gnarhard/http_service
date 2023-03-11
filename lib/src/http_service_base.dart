@@ -6,7 +6,7 @@ class HttpService extends http.BaseClient {
   String siteBaseUrl;
   http.Client? client;
   final Function hasConnectivity;
-  final Function getAuthTokenCallback;
+  final Future<String?> Function() getAuthTokenCallback;
 
   String get noTrailingSlashBaseUrl => siteBaseUrl.endsWith('/')
       ? siteBaseUrl.substring(0, siteBaseUrl.length - 1)
@@ -33,7 +33,7 @@ class HttpService extends http.BaseClient {
         Platform.environment.containsKey('FLUTTER_TEST') ? null : http.Client();
   }
 
-  String? get bearerToken => getAuthTokenCallback();
+  Future<String?> get bearerToken async => await getAuthTokenCallback();
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
@@ -45,9 +45,9 @@ class HttpService extends http.BaseClient {
     final modifiedRequest = request as http.Request;
     modifiedRequest.headers[HttpHeaders.acceptHeader] = 'application/json';
 
-    if (bearerToken != null) {
+    if (await bearerToken != null) {
       modifiedRequest.headers[HttpHeaders.authorizationHeader] =
-          'Bearer ${bearerToken!}';
+          'Bearer ${await bearerToken}';
     }
 
     return client!.send(modifiedRequest);
