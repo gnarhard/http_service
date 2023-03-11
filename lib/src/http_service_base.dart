@@ -45,9 +45,10 @@ class HttpService extends http.BaseClient {
     final modifiedRequest = request as http.Request;
     modifiedRequest.headers[HttpHeaders.acceptHeader] = 'application/json';
 
-    if (await bearerToken != null) {
+    final token = await bearerToken;
+    if (token != null) {
       modifiedRequest.headers[HttpHeaders.authorizationHeader] =
-          'Bearer ${await bearerToken}';
+          'Bearer $token';
     }
 
     return client!.send(modifiedRequest);
