@@ -49,6 +49,13 @@ class HttpService extends http.BaseClient {
           'Bearer $token';
     }
 
-    return client!.send(modifiedRequest).timeout(const Duration(seconds: 3));
+    try {
+      return client!
+          .send(modifiedRequest)
+          .timeout(const Duration(milliseconds: 1500));
+    } catch (e) {
+      return http.StreamedResponse(
+          Stream.fromIterable([[]]), HttpStatus.gatewayTimeout);
+    }
   }
 }
