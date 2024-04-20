@@ -1,6 +1,6 @@
 name: http_service
 description: A service for managing http requests.
-version: 1.0.3
+version: 1.0.4
 
 environment:
   sdk: ">=3.3.3 < 4.0.0"
