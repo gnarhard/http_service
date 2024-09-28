@@ -34,8 +34,7 @@ class HttpService extends http.BaseClient {
     this.timeoutInMs = 1500,
   }) {
     /// This gets around the annoying http client creation warning when testing.
-    client =
-        Platform.environment.containsKey('FLUTTER_TEST') ? null : http.Client();
+    client = http.Client();
     timeout = Duration(milliseconds: timeoutInMs);
   }
 
