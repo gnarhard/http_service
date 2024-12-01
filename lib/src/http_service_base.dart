@@ -58,11 +58,6 @@ class HttpService extends http.BaseClient {
           'Bearer $token';
     }
 
-    // add keep alive header
-    modifiedRequest.headers[HttpHeaders.connectionHeader] = 'keep-alive';
-    // Add accept encoding header
-    modifiedRequest.headers[HttpHeaders.acceptEncodingHeader] = 'gzip, deflate, br';
-
     try {
       return client!.send(modifiedRequest).timeout(timeout);
     } catch (e) {
