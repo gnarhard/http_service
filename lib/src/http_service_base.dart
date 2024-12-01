@@ -58,11 +58,17 @@ class HttpService extends http.BaseClient {
           'Bearer $token';
     }
 
+    // add keep alive header
+    modifiedRequest.headers[HttpHeaders.connectionHeader] = 'keep-alive';
+
     try {
       return client!.send(modifiedRequest).timeout(timeout);
     } catch (e) {
+      if (isInDebugMode) {
+        print('HttpService Error: $e');
+      }
       return http.StreamedResponse(
-          Stream.fromIterable([[]]), HttpStatus.gatewayTimeout);
+          Stream.fromIterable([[]]), HttpStatus.badGateway);
     }
   }
 }
