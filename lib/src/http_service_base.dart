@@ -1,4 +1,4 @@
-import 'dart:io' show HttpHeaders, HttpStatus, Platform;
+import 'dart:io' show HttpHeaders, HttpStatus;
 import 'package:http/http.dart' as http;
 
 class HttpService extends http.BaseClient {
@@ -6,7 +6,7 @@ class HttpService extends http.BaseClient {
   String siteBaseUrl;
   http.Client? client;
   final Function hasConnectivity;
-  final Future<String?> Function() getAuthTokenCallback;
+  final String? Function() getAuthTokenCallback;
   final bool isInDebugMode;
   final int timeoutInMs;
   late final Duration timeout;
@@ -52,7 +52,7 @@ class HttpService extends http.BaseClient {
     final modifiedRequest = request as http.Request;
     modifiedRequest.headers[HttpHeaders.acceptHeader] = 'application/json';
 
-    final token = await getAuthTokenCallback();
+    final token = getAuthTokenCallback();
     if (token != null) {
       modifiedRequest.headers[HttpHeaders.authorizationHeader] =
           'Bearer $token';
