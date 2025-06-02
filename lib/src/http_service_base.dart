@@ -6,7 +6,7 @@ class HttpService extends http.BaseClient {
   String siteBaseUrl;
   http.Client? client;
   final Function hasConnectivity;
-  final String? Function() getAuthTokenCallback;
+  final Future<String?> Function() getAuthTokenCallback;
   final bool isInDebugMode;
   final int timeoutInMs;
   late final Duration timeout;
@@ -52,7 +52,7 @@ class HttpService extends http.BaseClient {
     final modifiedRequest = request as http.Request;
     modifiedRequest.headers[HttpHeaders.acceptHeader] = 'application/json';
 
-    final token = getAuthTokenCallback();
+    final token = await getAuthTokenCallback();
     if (token != null) {
       modifiedRequest.headers[HttpHeaders.authorizationHeader] =
           'Bearer $token';
